@@ -1,0 +1,12 @@
+{
+ "cell": "n2000_auc0.63_dpi0.223",
+ "reps_checked": 2000,
+ "per_rep_max_abs_residual": {
+  "M1": 8.881784197001252e-16,
+  "M2": 8.881784197001252e-16,
+  "M3": 8.881784197001252e-16,
+  "M5": 1.7763568394002505e-15
+ },
+ "conclusion": "identity holds per replication to solver tolerance for all mechanisms; the S16 M5 residual is the achieved-vs-target count gap in the a(k) reference column, not a violation.",
+ "seed": 20261116
+}

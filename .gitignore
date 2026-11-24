@@ -1,0 +1,10 @@
+# patient-level source data are downloaded from the public archives, never committed
+DataSheet_1_*.csv
+PROLOGUE_raw+data+for+submission+*.xlsx
+SNPs.csv
+
+# derived outputs are reproducible; keep the repo to code + frozen results
+harmonized_A.csv
+harmonized_B.csv
+__pycache__/
+*.pyc

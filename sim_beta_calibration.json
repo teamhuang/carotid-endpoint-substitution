@@ -1,0 +1,12 @@
+{
+ "0.63": {
+  "beta": 0.4785,
+  "realised_auc": 0.63,
+  "intercept_for_prev_0.646": 0.6327
+ },
+ "0.75": {
+  "beta": 1.0521,
+  "realised_auc": 0.75,
+  "intercept_for_prev_0.646": 0.7352
+ }
+}
