@@ -52,4 +52,5 @@ repository root) before running step 4.
 
 ## Licence
 
-Code: MIT. Data are not included; use them under the licences of the original archives.
+Code: MIT (add a LICENSE file before first formal release if desired).
+Data are not included; use them under the licences of the original archives.
