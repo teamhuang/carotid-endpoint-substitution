@@ -1,56 +1,40 @@
-# Endpoint substitution in prediction-model evaluation — replication package
+# Carotid ultrasound endpoint substitution
 
-Code and machine-readable results for:
+Reproduction package for the v16 paired cross-sectional analysis and simulation. A frozen ten-predictor logistic score is evaluated against two baseline carotid IMT definitions on the same 400 PROLOGUE participants. Metric differences are designated minus segment-derived in the empirical analysis, and baseline minus alternative in the simulation. Simulated prevalence change uses alternative minus baseline.
 
-> Operational endpoint definitions alter the calibration assessment of a fixed prediction model:
-> a paired empirical and simulation study in type 2 diabetes (JCE submission, v15)
+## Obtain the inputs
 
-This repository contains **analysis code and results only**. The two individual-patient source
-datasets are publicly archived and are **not** redistributed here:
+Download the following unmodified files from the original archives. Keep them in a local data directory. Individual-level input and harmonized records are excluded from this repository and the release ZIP.
 
-- Cohort A (Chinese T2D carotid registry, 682 released rows): Figshare supplement,
-  DOI 10.3389/fendo.2023.1131430.s001 (resolves to Feng et al., Front Endocrinol 2023;14:1131430).
-- Cohort B (PROLOGUE RCT baseline, Japanese T2D, 463 participants): Dryad, DOI 10.5061/dryad.qt743
-  (file `PROLOGUE_raw+data+for+submission+20160506.xlsx`).
+| Cohort | Source file | Archive MD5 |
+| --- | --- | --- |
+| A | [Frontiers Figshare record 22108052](https://figshare.com/articles/22108052), DataSheet_1_Development and validation of a nomogram for evaluating the incident risk of carotid atherosclerosis in patients with type 2 diabetes.csv | 0aee880339c157620d520d7df9656a4e |
+| B | [PROLOGUE deposit](https://doi.org/10.5061/dryad.qt743), PROLOGUE_raw data for submission 20160506.xlsx | ecab14df1570d1924db161ba663ff78b |
 
-## Setup
+The default input directory is data/. Set the CAROTID_DATA_DIR environment variable to use another directory. The plus-separated legacy PROLOGUE filename is also accepted.
 
-Python 3.10+ with: numpy, pandas, scipy, statsmodels, scikit-learn, matplotlib, patsy, openpyxl.
-Place the two downloaded source files in the repository root under the exact names above. To regenerate the figures you also need the intermediate `harmonized_A.csv` / `harmonized_B.csv`, which step 1 of the manuscript pipeline (`main_analysis.py`) writes next to the results; or reuse the copies shipped with the submission reproducibility ZIP.
+## Run
 
-## Run order
+Use Python 3.12 and install the pinned packages with python -m pip install -r requirements.txt. Then run python run_all.py from the repository root. The 12-cell simulation takes several minutes. The scripts can also be run individually in the order listed in run_all.py. Figure generation uses the two original inputs and paired.json, support.json, and simulation.json. Microsoft Word is unnecessary for the analysis and the figures.
 
-| Step | Script | Output |
-|---|---|---|
-| 1 | `scripts/rebuild_jce_v14.py` | `analysis_results_v14_corrected.json` (written to the repository root) — the frozen paired endpoint-substitution analysis (agreement matrix, paired bootstrap of ΔAUC/ΔBrier/ΔCITL/Δslope, threshold and subset sensitivities, four fixed scores) |
-| 2 | `scripts/verify_perrep_identity.py` | `analysis_results_v14_perrep.json` — per-replication verification that the offset-CITL identity holds to solver tolerance (max residual 1.8×10⁻¹⁵) |
-| 3 | `scripts/round11_simulation.py` | `analysis_results_v11_sim.json` — the 12-cell × 5-mechanism simulation (seed 20261116, 2,000 reps/cell) |
+Optional: run python scripts/calibrate_sim_beta.py to check the supplied simulation coefficients against the original seeded reference draw. The full grid reports usable repetitions per metric. Calibration slope summaries use converged fits.
 
-After steps 1–3, move the regenerated JSONs into `results/` (they are written to the
-repository root) before running step 4.
-| 4 | `scripts/make_figures_jce_v15.py` | `figures/panels/`, `figures/combined/` — 600 dpi PNG + vector PDF (Type 42), no SVG |
-| 5 | `scripts/audit_jce_v15.py` | package audit: bold discipline, three-line tables, citation order, numbering (requires the manuscript Markdown files) |
+| Script | Output |
+| --- | --- |
+| analyze_paired.py | Analysis flow, fixed score, paired metrics, intervals, thresholds, and sensitivity sets in paired.json |
+| analyze_support.py | Agreement, harmonization summaries, coefficients, spline odds ratios, comparator results, and coding sensitivities in support.json |
+| analyze_nomogram.py | Internal optimism assessment of the published and ten-predictor specifications in nomogram.json |
+| analyze_imputation.py | Association sensitivity with posterior imputation and Rubin pooling in imputation.json |
+| simulate.py | Twelve cells by five mechanisms in simulation.json |
+| verify_identity.py | Independent binomial-offset check for all five mechanisms in the representative cell in identity.json |
+| make_figures.py | Combined and individual 600 dpi PNG and vector PDF figures |
 
-`sim_beta_calibration.json` pins the bisection-calibrated score effect used by the simulation
-(realised base AUC 0.6300/0.7500 on 400,000 draws).
+Harmonized participant-level tables are generated under derived/ for local verification. The released aggregate results are stored under results/.
 
-## Key frozen results (from `analysis_results_v14_corrected.json`)
+## Interpretation and provenance
 
-- Agreement on 453 both-field records: 68.2%, κ = 0.209; prevalence 63.1% vs 87.4%;
-  designated-only 17, segment-only 127.
-- Paired analysis on 400 patients (counts 259 vs 351): ΔAUC −0.030 (95% CI −0.124 to +0.060);
-  ΔBrier +0.049 (+0.024 to +0.074); ΔCITL −1.575 (−1.952 to −1.225); Δslope −0.023 (−0.385 to +0.318).
-- The offset-CITL difference equals a(259) − a(351) exactly for this fixed prediction vector.
-
-## Provenance notes
-
-- The cohort-A released file (682 rows) cannot be reconciled to the source publication's
-  1,049 (733/316) counts and appears to be a single completed imputation; the fixed score is
-  exploratory and its absolute performance should not be generalised.
-- The two PROLOGUE IMT fields cannot be adjudicated against a gold standard; the package
-  quantifies the consequence of choosing between them, not which is correct.
-
-## Licence
-
-Code: MIT (add a LICENSE file before first formal release if desired).
-Data are not included; use them under the licences of the original archives.
+- The 453 participants with both IMT fields had 68.2% agreement. The 400 scorable participants with both fields had 259 versus 351 positive labels and an offset-intercept difference of −1.575. Ambiguous smoking codes were included in the zero category in the historical binary score and were evaluated in two sensitivity analyses.
+- The cohort A release contains 682 rows and one exact duplicate. It cannot be reconciled with the 1,049 participants described in the source article. Cohort A sex coding and the mapping between cohort B IMT fields have limited documentation.
+- M4 decreases mean prevalence by 2.907 percentage points in the representative cell. The simulation results include signed realized changes and separate grid targets.
+- Spline odds ratios are calculated from log-odds contrasts. The corrected internal AUC uses a bootstrap refit evaluated on bootstrap and original samples.
+- v15 material remains available in the Git history. Values and figures used in v16 are generated with the scripts and results in this revision.

@@ -1,0 +1,29 @@
+{
+  "n": 681,
+  "events": 307,
+  "reps": 1000,
+  "seed": 20261012,
+  "method": "Bootstrap refit evaluated on bootstrap training sample and original sample; mean train-minus-original AUC is subtracted from original apparent AUC.",
+  "models": {
+    "Published five-variable specification": {
+      "apparent_auc": 0.7635910745701894,
+      "optimism": 0.006428731224825391,
+      "optimism_corrected_auc": 0.757162343345364,
+      "usable": 1000
+    },
+    "Ten-variable specification": {
+      "apparent_auc": 0.7628507725269557,
+      "optimism": 0.01431157160214994,
+      "optimism_corrected_auc": 0.7485392009248057,
+      "usable": 1000
+    }
+  },
+  "apparent_auc_difference": {
+    "point": -0.0007403020432337204,
+    "ci": [
+      -0.012223728359992405,
+      0.010237673319545145
+    ]
+  },
+  "published_coefficient_rank_auc": 0.7598460171750073
+}

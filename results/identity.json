@@ -1,0 +1,41 @@
+{
+  "cell": {
+    "n": 2000,
+    "base_auc": 0.63,
+    "target_dpi": 0.223
+  },
+  "seed": 20261116,
+  "reps_checked": 2000,
+  "mechanisms": {
+    "M1": {
+      "max_abs_identity_residual": 3.597122599785507e-14,
+      "mean_base_prevalence": 0.6459305,
+      "mean_alternative_prevalence": 0.869,
+      "mean_signed_prevalence_change": 0.22306950000000003
+    },
+    "M2": {
+      "max_abs_identity_residual": 3.597122599785507e-14,
+      "mean_base_prevalence": 0.6459305,
+      "mean_alternative_prevalence": 0.869,
+      "mean_signed_prevalence_change": 0.22306950000000003
+    },
+    "M3": {
+      "max_abs_identity_residual": 3.597122599785507e-14,
+      "mean_base_prevalence": 0.6459305,
+      "mean_alternative_prevalence": 0.869,
+      "mean_signed_prevalence_change": 0.22306950000000003
+    },
+    "M4": {
+      "max_abs_identity_residual": 4.3298697960381105e-14,
+      "mean_base_prevalence": 0.6459305,
+      "mean_alternative_prevalence": 0.6168605,
+      "mean_signed_prevalence_change": -0.02906999999999993
+    },
+    "M5": {
+      "max_abs_identity_residual": 3.774758283725532e-14,
+      "mean_base_prevalence": 0.6459305,
+      "mean_alternative_prevalence": 0.86332375,
+      "mean_signed_prevalence_change": 0.21739324999999998
+    }
+  }
+}
